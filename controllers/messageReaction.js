@@ -2,6 +2,9 @@
 
 const Discord = require('discord.js');
 const client = require('../client');
+const {guilds: {
+  ANIname
+}} = require('../config');
 const Log = require('../modules/Logger');
 
 const richEmbed = new Discord.RichEmbed();
@@ -9,10 +12,10 @@ const richEmbed = new Discord.RichEmbed();
 module.exports = {
   addRole: async (reaction, user) => {
     const {message} = reaction;
-    const member = client.guilds.get('219557939466338304').members.get(user.id);
+    const member = client.guilds.get(ANIname.id).members.get(user.id);
 
     try {
-      await member.addRole('407889848192729089', 'Новый юзер!');
+      await member.addRole(ANIname.roles.default, 'Новый юзер!');
     } catch (error) {
       richEmbed
         .setTitle(error.message)
