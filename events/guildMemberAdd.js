@@ -2,6 +2,7 @@
 
 const Discord = require('discord.js');
 const client = require('../client');
+const Log = require('../modules/Logger');
 
 const messageContent = new Discord.RichEmbed()
   .setTitle('Письмо с подтверждением!')
@@ -18,6 +19,8 @@ client.on('guildMemberAdd', async member => {
 
     return message.react('✅');
   } catch (error) {
-    throw console.error(error);
+    error.footer = 'Method: member.send || message.react';
+
+    return new Log('error', error);
   }
 });

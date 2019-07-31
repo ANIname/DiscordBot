@@ -1,13 +1,10 @@
 'use strict';
 
-const Discord = require('discord.js');
 const client = require('../client');
 const {guilds: {
   ANIname
 }} = require('../config');
 const Log = require('../modules/Logger');
-
-const richEmbed = new Discord.RichEmbed();
 
 module.exports = {
   addRole: async (reaction, user) => {
@@ -17,13 +14,9 @@ module.exports = {
     try {
       await member.addRole(ANIname.roles.default, 'Новый юзер!');
     } catch (error) {
-      richEmbed
-        .setTitle(error.message)
-        .setDescription(error.stack)
-        .setTimestamp()
-        .setFooter('Method: member.addRole', client.user.avatarURL);
+      error.footer = 'Method: member.addRole';
 
-      return new Log('error', richEmbed);
+      return new Log('error', error);
     }
 
     message.delete();

@@ -1,9 +1,6 @@
 'use strict';
 
-const Discord = require('discord.js');
 const Log = require('../modules/Logger');
-
-const richEmbed = new Discord.RichEmbed();
 
 module.exports = async (message, args) => {
   if (message.channel.type !== 'text') {
@@ -23,12 +20,8 @@ module.exports = async (message, args) => {
   try {
     await message.channel.bulkDelete(amount);
   } catch (error) {
-    richEmbed
-      .setTitle(error.message)
-      .setDescription(error.stack)
-      .setTimestamp()
-      .setFooter('Method: message.channel.bulkDelete()', client.user.avatarURL);
+    error.footer = 'Method: message.channel.bulkDelete';
 
-    return new Log('error', richEmbed);
+    return new Log('error', error);
   }
 };

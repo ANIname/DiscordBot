@@ -1,11 +1,7 @@
 'use strict';
 
-const Discord = require('discord.js');
 const client = require('../client');
 const Log = require('../modules/Logger');
-
-const richEmbed = new Discord.RichEmbed();
-
 
 module.exports = async event => {
   if (event.t === 'MESSAGE_REACTION_ADD' || event.t === 'MESSAGE_REACTION_REMOVE') {
@@ -26,13 +22,9 @@ module.exports = async event => {
         client.emit('messageReactionRemove', messageReaction, user);
       }
     } catch (error) {
-      richEmbed
-        .setTitle(error.message)
-        .setDescription(error.stack)
-        .setTimestamp()
-        .setFooter('File: emitEvent', client.user.avatarURL);
+      error.footer = 'File: emitEvent';
 
-      return new Log('error', richEmbed);
+      return new Log('error', error);
     }
   }
 };

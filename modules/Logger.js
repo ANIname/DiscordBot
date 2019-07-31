@@ -1,6 +1,8 @@
 'use strict';
 
+const Discord = require('discord.js');
 const client = require('../client');
+const richEmbed = new Discord.RichEmbed();
 
 class Log {
   constructor(type, message) {
@@ -11,7 +13,20 @@ class Log {
       }
 
       case 'error': {
-        client.channels.get('606072489671524363').send(message);
+        if (message.stack) {
+          richEmbed
+            .setTitle(error.message)
+            .setDescription(error.stack)
+            .setTimestamp();
+
+          if (message.footer) {
+            richEmbed.setFooter(message.footer, client.user.avatarURL)
+          }
+
+          client.channels.get('606072489671524363').send(richEmbed);
+        } else {
+          client.channels.get('606072489671524363').send(message);
+        }
         break;
       }
 
