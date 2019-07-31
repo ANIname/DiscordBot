@@ -27,7 +27,7 @@ module.exports = async (message, args) => {
       .setTitle(error.message)
       .setDescription(error.stack)
       .setTimestamp()
-      .setFooter('Method: member.addRole', client.user.avatarURL);
+      .setFooter('Method: message.channel.bulkDelete()', client.user.avatarURL);
 
     return new Log('error', richEmbed);
   }
