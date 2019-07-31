@@ -1,0 +1,25 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ANIname/DiscordBot.git"
+  },
+  "author": "KiiDii <https:t.me/kiidii_aniname>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ANIname/DiscordBot/issues"
+  },
+  "homepage": "https://github.com/ANIname/DiscordBot#readme",
+  "dependencies": {
+    "cross-env": "^5.2.0",
+    "directory-import": "^1.0.3",
+    "discord.js": "^11.5.1"
+  }
+}
