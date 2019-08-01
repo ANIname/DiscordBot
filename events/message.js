@@ -38,7 +38,7 @@ client.on('message', async message => {
       membersIds.push(member.id);
     });
 
-    if (message.content.length < length) {
+    if (message.content.length <= length) {
       await message.delete();
 
       return sendInviteNotification(message, membersIds);
