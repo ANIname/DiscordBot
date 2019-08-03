@@ -1,11 +1,9 @@
 'use strict';
 
-const {guilds: {
-  ANIname: {roles}
-}} = require('../config');
+const {guilds: {ANIname: {roles}}} = require('../config');
 const Log = require('../modules/Logger');
 
-module.exports = (oldMember, newMember) => {
+function cleanUpUserRoles(oldMember, newMember) {
   const newRolesLength = newMember.roles.array().length;
 
   if (newRolesLength === 1) return addDefaultRole(newMember);
@@ -31,3 +29,5 @@ function removeDefaultRole(member) {
     return new Log('error', error);
   }
 }
+
+module.exports = {cleanUpUserRoles};
