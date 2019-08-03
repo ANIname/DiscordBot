@@ -1,8 +1,14 @@
 'use strict';
 
 const User = require('../models/User');
+const {experience} = require('../config');
 
 module.exports = {
-  give: (id, xp) => User.findOneAndUpdate({id}, {$inc: {xp}}, {upsert:true}).exec(),
-  take: (id, xp) => User.findOneAndUpdate({id}, {$inc: {xp: -xp}}, {upsert:true}).exec()
+  give: (id, forWhat) => {
+    User.findOneAndUpdate({id}, {$inc: {xp: experience.give[forWhat]}}, {upsert:true}).exec()
+  },
+  
+  take: (id, forWhat) => {
+    User.findOneAndUpdate({id}, {$inc: {xp: -experience.take[forWhat]}}, {upsert:true}).exec()
+  }
 }

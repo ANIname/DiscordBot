@@ -9,5 +9,10 @@
         "default": "407889848192729089"
       }
     }
+  },
+  "experience": {
+    "give": {
+      "message": 10
+    }
   }
 }
