@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
   id: {
-    type: 'number',
+    type: 'string',
     required: true
   },
   xp: {
