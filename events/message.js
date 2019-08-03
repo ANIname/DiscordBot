@@ -52,5 +52,5 @@ client.on('message', async message => {
     }
   }
 
-  experience.give(message.author.id, 'message');
+  experience.give(message.author.id, message.content.length);
 });

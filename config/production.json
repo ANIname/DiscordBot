@@ -11,8 +11,7 @@
     }
   },
   "experience": {
-    "give": {
-      "message": 10
-    }
+    "give": {},
+    "take": {}
   }
 }
