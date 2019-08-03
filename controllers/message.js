@@ -1,10 +1,26 @@
 'use strict';
 
-const client = require('../client');
 const forEach = require('foreach');
 const filter = require('array-filter');
+const importDIr = require('directory-import');
+const client = require('../client');
 
-module.exports = async (message, membersIds) => {
+const commands = importDIr('./commands', 'async');
+
+async function commandExecution(message) {
+  const args = message.content.split(' ');
+  const command = args[0].slice(1);
+
+  if (commands[command]) {
+    await message.delete();
+
+    return commands[command](message, args);
+  }
+}
+
+async function sendInviteForUser(message, membersIds) {
+  await message.delete();
+
   membersIds = filter(membersIds, id => {
     const user = client.users.get(id);
 
@@ -44,4 +60,21 @@ module.exports = async (message, membersIds) => {
   const DELAY = 30000;
 
   messageForAuthor.delete(DELAY);
-};
+}
+
+function checkExistenceContent(membersMentions) {
+  const WHITESPACE_LENGTH = 1;
+  const MENTION_WITHOUT_ID_LENGTH = 3;
+  const membersIds = [];
+  let length = 0;
+
+  forEach(membersMentions, member => {
+    length += member.id.length + WHITESPACE_LENGTH + MENTION_WITHOUT_ID_LENGTH;
+
+    membersIds.push(member.id);
+  });
+
+  return message.content.length <= length;
+}
+
+module.exports = {commandExecution, sendInviteForUser, checkExistenceContent}

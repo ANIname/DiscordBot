@@ -1,55 +1,24 @@
 'use strict';
 
-// Modules
-const importDIr = require('directory-import');
-const forEach = require('foreach');
 const client = require('../client');
 const {bot: {prefix}} = require('../config');
-
-// Models
 const experience = require('../modules/experience');
-
-// Controllers
-const sendInviteNotification = require('../controllers/sendInviteNotification');
-
-// Commands
-const commands = importDIr('./commands', 'async');
+const {
+  commandExecution,
+  sendInviteForUser,
+  checkExistenceContent
+} = require('../controllers/message');
 
 client.on('message', async message => {
   if (message.author.bot) return;
 
-  // Commands
   if (message.content.startsWith(prefix)) {
-    const args = message.content.split(' ');
-    const command = args[0].slice(1);
-
-    if (commands[command]) {
-      await message.delete();
-
-      return commands[command](message, args);
-    }
+    return commandExecution(message);
   }
 
-  // Mentions Check
   const membersMentions = message.mentions.members.array();
-
-  if (membersMentions.length) {
-    const WHITESPACE_LENGTH = 1;
-    const MENTION_WITHOUT_ID_LENGTH = 3;
-    const membersIds = [];
-    let length = 0;
-
-    forEach(membersMentions, member => {
-      length += member.id.length + WHITESPACE_LENGTH + MENTION_WITHOUT_ID_LENGTH;
-
-      membersIds.push(member.id);
-    });
-
-    if (message.content.length <= length) {
-      await message.delete();
-
-      return sendInviteNotification(message, membersIds);
-    }
+  if (membersMentions.length && await checkExistenceContent(membersMentions)) {
+    return sendInviteForUser(message, membersIds);
   }
 
   experience.give(message.author.id, message.content.length);
