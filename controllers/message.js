@@ -4,6 +4,8 @@ const forEach = require('foreach');
 const filter = require('array-filter');
 const importDIr = require('directory-import');
 const client = require('../client');
+const {guilds: {ANIname}} = require('../config');
+const getMention = require('../modules/getMention');
 
 const commands = importDIr('./commands', 'async');
 
@@ -30,13 +32,13 @@ async function sendInviteForUser(message, membersIds) {
   if (!membersIds.length) return;
 
   let contentForAuthor = 'Я удалила ваше сообщение, чтобы не засорять чат. Однако я понимаю, что вы хотите обратить внимение, ';
-  let contentForMembers = `<@${message.member.id}> Хочет видеть вас`;
+  let contentForMembers = `${getMention(ANIname.id, message.member.id)} Хочет видеть вас`;
 
   if (membersIds.length === 1) {
-    contentForAuthor += `<@${membersIds[0]}>, поэтому я отправила ему(ей) приглашение`
+    contentForAuthor += `${getMention(ANIname.id, membersIds[0])}, поэтому я отправила ему(ей) приглашение`
   } else {
     forEach(membersIds, id => {
-      contentForAuthor += `<@${id}> и `
+      contentForAuthor += `${getMention(ANIname.id, id)} и `
     });
 
     contentForAuthor = contentForAuthor.slice(0, -3);
