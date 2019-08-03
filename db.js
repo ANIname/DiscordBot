@@ -2,7 +2,10 @@
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/discordBot', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/discordBot', {
+  useNewUrlParser: true,
+  useFindAndModify: false
+});
 
 const db = mongoose.connection;
 
