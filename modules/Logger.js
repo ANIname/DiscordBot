@@ -4,7 +4,14 @@ const Discord = require('discord.js');
 const client = require('../client');
 const richEmbed = new Discord.RichEmbed();
 
+/**
+ * Logging in a separate discord server
+ */
 class Log {
+  /**
+   * @param {string} type - Warn || Error || Info
+   * @param {string|error} message 
+   */
   constructor(type, message) {
     switch (type) {
       case 'warn': {
