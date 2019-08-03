@@ -1,11 +1,18 @@
 'use strict';
 
+// Modules
 const importDIr = require('directory-import');
 const forEach = require('foreach');
 const client = require('../client');
-const sendInviteNotification = require('../controllers/sendInviteNotification');
 const {bot: {prefix}} = require('../config');
 
+// Models
+const experience = require('../modules/experience');
+
+// Controllers
+const sendInviteNotification = require('../controllers/sendInviteNotification');
+
+// Commands
 const commands = importDIr('./commands', 'async');
 
 client.on('message', async message => {
@@ -44,4 +51,6 @@ client.on('message', async message => {
       return sendInviteNotification(message, membersIds);
     }
   }
+
+  experience.give(message.author.id, 'message');
 });
