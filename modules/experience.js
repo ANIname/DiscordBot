@@ -46,4 +46,4 @@ function take(id, xp, forWhat) {
   }
 }
 
-module.exports = {give, take}
+module.exports = {give, take};
