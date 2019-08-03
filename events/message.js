@@ -17,8 +17,10 @@ client.on('message', async message => {
   }
 
   const membersMentions = message.mentions.members.array();
-  if (membersMentions.length && await checkExistenceContent(membersMentions)) {
-    return sendInviteForUser(message, membersIds);
+  if (membersMentions.length) {
+    const {existence, membersIds} = await checkExistenceContent(message, membersMentions)
+
+    if (existence) return sendInviteForUser(message, membersIds);
   }
 
   experience.give(message.author.id, message.content.length);

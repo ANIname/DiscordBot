@@ -62,7 +62,7 @@ async function sendInviteForUser(message, membersIds) {
   messageForAuthor.delete(DELAY);
 }
 
-function checkExistenceContent(membersMentions) {
+function checkExistenceContent(message, membersMentions) {
   const WHITESPACE_LENGTH = 1;
   const MENTION_WITHOUT_ID_LENGTH = 3;
   const membersIds = [];
@@ -74,7 +74,7 @@ function checkExistenceContent(membersMentions) {
     membersIds.push(member.id);
   });
 
-  return message.content.length <= length;
+  return {existence: message.content.length <= length, membersIds};
 }
 
 module.exports = {commandExecution, sendInviteForUser, checkExistenceContent}
