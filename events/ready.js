@@ -11,15 +11,19 @@ const db = require('../db');
 client.on('ready', () => {
   console.info(`${client.user.username} bot ready to work!`);
 
-  startUpdatingRatingByInterval();
+  if (process.env.NODE_ENV === 'production') {
+    startUpdatingRatingByInterval();
+  }
 });
 
 db.once('open', () => {
+  // noinspection JSUnresolvedVariable
   console.info(`Connected to ${db.db.databaseName} database`);
 });
 
 function startUpdatingRatingByInterval() {
   setInterval(async () => {
+    // noinspection JSUnresolvedVariable
     const message = await client
       .channels
       .get(ANIname.channels.counters)
@@ -29,7 +33,7 @@ function startUpdatingRatingByInterval() {
       .limit(10)
       .sort({xp: -1})
       .exec();
-    let rating = ''
+    let rating = '';
   
     forEach(users, ({xp, id}, index) => {
       const decl = declOfNum(xp, ['очко ЧСВ', 'очка ЧСВ', 'очков ЧСВ']);
@@ -37,11 +41,12 @@ function startUpdatingRatingByInterval() {
       rating += `\n${index + 1}) ${getMention(ANIname.id, id)} - ${xp} ${decl}`;
     });
   
-    const decl = declOfNum(users.length, ['участник', 'участника', 'участников'])
-    
+    const decl = declOfNum(users.length, ['участник', 'участника', 'участников']);
+
+    // noinspection JSIgnoredPromiseFromCall
     message.edit(
       '```Markdown\n' +
-      `# Топ ${users.length} ${decl} по количеству очков чсв\n` + 
+      `# Топ ${users.length} ${decl} по количеству очков чсв\n` +
       '```' +
       rating
     );
