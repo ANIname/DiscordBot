@@ -10,6 +10,9 @@ const schema = new mongoose.Schema({
   xp: {
     type: 'number',
     default: 0
+  },
+  streaming: {
+    type: 'object'
   }
 }, { versionKey: false });
 
