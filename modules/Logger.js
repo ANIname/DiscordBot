@@ -22,8 +22,8 @@ class Log {
       case 'error': {
         if (message.stack) {
           richEmbed
-            .setTitle(error.message)
-            .setDescription(error.stack)
+            .setTitle(message.message)
+            .setDescription(message.stack)
             .setTimestamp();
 
           if (message.footer) {
