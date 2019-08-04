@@ -8,7 +8,7 @@ client.on('messageReactionRemove', async (reaction, user) => {
 
   const embed = reaction.message.embeds[0];
 
-  if (embed.title === 'Письмо с подтверждением!' && reaction.emoji.name === '✅') {
+  if (embed && embed.title === 'Письмо с подтверждением!' && reaction.emoji.name === '✅') {
     return messageReaction.addRole(reaction, user);
   }
 });
