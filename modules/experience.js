@@ -11,7 +11,7 @@ const {experience} = require('../config');
  * @param {number|null} xp - Custom amount xp. If this parameter is specified, the next one will be ignored.
  * @param {string|undefined} forWhat - Number xp based on data in the config. If the previous parameter was specified, this one will be ignored.
  */
-function give (id, xp, forWhat = undefined) {
+function give(id, xp, forWhat = undefined) {
   try {
     if (xp) {
       return User.findOneAndUpdate({id}, {$inc: {xp}}, {upsert: true}).exec();
@@ -27,12 +27,12 @@ function give (id, xp, forWhat = undefined) {
 
 /**
  * Xp decrement
- * 
- * @param {number} id - User id
+ *
+ * @param {string|number} id - User id
  * @param {number|null} xp - Custom amount xp. If this parameter is specified, the next one will be ignored.
- * @param {string} forWhat - Number xp based on data in the config. If the previous parameter was specified, this one will be ignored.
+ * @param {string|undefined} forWhat - Number xp based on data in the config. If the previous parameter was specified, this one will be ignored.
  */
-function take(id, xp, forWhat) {
+function take(id, xp, forWhat = undefined) {
   try {
     if (xp) {
       return User.findOneAndUpdate({id}, {$inc: {xp: -xp}}, {upsert: true}).exec();
