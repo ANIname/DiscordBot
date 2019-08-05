@@ -1,10 +1,6 @@
 'use strict';
 
-const forEach = require('foreach');
-const User = require('../models/User');
-const getMention = require('../modules/getMention');
-const declOfNum = require('../modules/declOfNum');
-const {guilds: {ANIname}} = require('../config');
+const ready = require('../controllers/ready');
 const client = require('../client');
 const db = require('../db');
 
@@ -12,7 +8,8 @@ client.on('ready', () => {
   console.info(`${client.user.username} bot ready to work!`);
 
   if (process.env.NODE_ENV === 'production') {
-    startUpdatingRatingByInterval();
+    // noinspection JSIgnoredPromiseFromCall
+    ready.updateTopRating();
   }
 });
 
@@ -20,35 +17,3 @@ db.once('open', () => {
   // noinspection JSUnresolvedVariable
   console.info(`Connected to ${db.db.databaseName} database`);
 });
-
-function startUpdatingRatingByInterval() {
-  setInterval(async () => {
-    // noinspection JSUnresolvedVariable
-    const message = await client
-      .channels
-      .get(ANIname.channels.counters)
-      .fetchMessage('607254367115935776');
-    const users = await User
-      .find({xp: {$gt: 0}})
-      .limit(10)
-      .sort({xp: -1})
-      .exec();
-    let rating = '';
-  
-    forEach(users, ({xp, id}, index) => {
-      const decl = declOfNum(xp, ['очко ЧСВ', 'очка ЧСВ', 'очков ЧСВ']);
-  
-      rating += `\n${index + 1}) ${getMention(ANIname.id, id)} - ${xp} ${decl}`;
-    });
-  
-    const decl = declOfNum(users.length, ['участник', 'участника', 'участников']);
-
-    // noinspection JSIgnoredPromiseFromCall
-    message.edit(
-      '```Markdown\n' +
-      `# Топ ${users.length} ${decl} по количеству очков чсв\n` +
-      '```' +
-      rating
-    );
-  }, 5000);
-}
