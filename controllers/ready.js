@@ -50,7 +50,7 @@ const HOUR_IN_MILLISECONDS = 3600000;
 
 setInterval(() => {
   // noinspection SpellCheckingInspection, JSIgnoredPromiseFromCall
-  Interval.findOneAndUpdate({name: 'update-users-top'}, {$inc: {interval: DEFAULT_INTERVAL}}, {upsert: true}).exec();
+  Interval.findOneAndUpdate({name: 'update-users-top'}, {interval: DEFAULT_INTERVAL}, {upsert: true}).exec();
 }, HOUR_IN_MILLISECONDS);
 
 module.exports = {updateTopRating};
