@@ -1,6 +1,9 @@
 notes.txt
 test.js
 
+security/*
+!security/index.js
+
 package-lock.json
 
 node_modules
