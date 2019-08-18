@@ -1,1 +1,5 @@
-console.info('start');
+(async () => {
+  await require('./checkSecurityFilesExistence')();
+
+  require('./client');
+})();
