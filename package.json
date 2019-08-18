@@ -1,28 +1,42 @@
 {
   "name": "discordbot",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.0",
+  "description": "Application for our Discord Server: https://discord.gg/ADFYZtJ",
   "main": "index.js",
   "scripts": {
+    "eslint": "eslint ./",
     "start": "cross-env NODE_ENV=production node index",
-    "dev": "nodemon index"
+    "dev": "npm run eslint && nodemon index"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ANIname/DiscordBot.git"
   },
-  "author": "KiiDii <https:t.me/kiidii_aniname>",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/ANIname/DiscordBot/issues"
   },
   "homepage": "https://github.com/ANIname/DiscordBot#readme",
+  "author": {
+    "name": "KiiDii",
+    "email": "kiidii@aniname.com",
+    "telegram": "https:t.me/kiidii_aniname"
+  },
+  "license": "ISC",
   "dependencies": {
-    "array-filter": "^1.0.0",
     "cross-env": "^5.2.0",
-    "directory-import": "^1.0.3",
-    "discord.js": "^11.5.1",
-    "foreach": "^2.0.5",
-    "mongoose": "^5.6.8"
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-immutable": "^1.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-no-use-extend-native": "^0.4.1",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-optimize-regex": "^1.1.6",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-sonarjs": "^0.4.0",
+    "eslint-plugin-unicorn": "^10.0.0",
+    "nodemon": "^1.19.1"
   }
 }

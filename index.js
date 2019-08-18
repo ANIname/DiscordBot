@@ -1,4 +1,1 @@
-'use strict';
-
-require('./client');
-require('./db');
+console.info('start');

@@ -1,10 +1,6 @@
+notes.txt
+test.js
+
 package-lock.json
 
 node_modules
-
-test.js
-
-config/token.json
-db/connect.json
-
-.idea
