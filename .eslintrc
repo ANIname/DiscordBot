@@ -11,6 +11,9 @@
     "immutable", "import", "no-use-extend-native", "node", "optimize-regex", "promise", "sonarjs", "unicorn"
   ],
   "rules": {
-    "no-console": [2, {"allow": ["info", "warn", "error"]}]
+    "no-console": [2, {"allow": ["info", "warn", "error"]}],
+    "global-require": 0,
+    "no-use-before-define": 0,
+    "import/no-dynamic-require": 0
   }
 }
