@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "eslint": "eslint ./",
-    "start": "cross-env NODE_ENV=production node index",
+    "start": "node index",
     "dev": "npm run eslint && nodemon index"
   },
   "repository": {
@@ -24,7 +24,6 @@
   "license": "ISC",
   "dependencies": {
     "cli-interact": "^0.1.9",
-    "cross-env": "^5.2.0",
     "directory-import": "^1.0.5",
     "discord.js": "^11.5.1"
   },
