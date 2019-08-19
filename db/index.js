@@ -3,7 +3,7 @@ const { mongodb: { uri } } = require('../security');
 
 (async () => {
   try {
-    await mongoose.connect(uri, { useNewUrlParser: true });
+    await mongoose.connect(uri, { useNewUrlParser: true, useFindAndModify: false });
   } catch (error) {
     throw new Error(error);
   }
