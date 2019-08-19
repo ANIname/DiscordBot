@@ -5,7 +5,6 @@ const schema = new mongoose.Schema({
     type: 'number',
     required: true,
   },
-  streaming: 'object',
 });
 
 module.exports = mongoose.model('User', schema);
