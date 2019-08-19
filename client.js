@@ -10,6 +10,4 @@ importDir('./events', 'async', (name, path, func) => {
 
 client.login(bot.token);
 
-// client.login('NDI4NTk4MTM3NDkwNTA1NzI4.XVnANQ.CPDzXz5kEVfOyqip470bF4hadV0');
-
 module.exports = client;
