@@ -59,12 +59,7 @@ async function updateStreamsInfo(oldMember, newMember, action) {
         ignore = true;
       }
 
-      for (const field of result.fields) {
-        if (field.name === newMember.voiceChannel.name) {
-          ignore = true;
-          break;
-        }
-      }
+      ignore = result.fields.some((field) => field.name === newMember.voiceChannel.name);
 
       if (!ignore) {
         result.fields.push({
