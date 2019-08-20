@@ -1,46 +1,82 @@
-const { RichEmbed } = require('discord.js');
+const { throwError } = require('../modules');
+const { Embed } = require('../models');
 const client = require('../client');
-const {
-  guilds: {
-    ANIname, ANIname: {
-      channels: {
-        streams, streams: {
-          messages: {
-            main,
-          },
-        },
-      },
-    },
-  },
-} = require('../config');
 
 const baseLink = 'https://www.discordapp.com/channels/219557939466338304/';
 
-// noinspection JSUnresolvedVariable
-const channel = client.guilds.get(ANIname.id).channels.get(streams.id);
+async function updateStreamsInfo(oldMember, newMember, action) {
+  checkErrors();
 
-async function updateStreamsInfo(oldMember, newMember, act) {
-  if (act !== 'add' && act !== 'remove') {
-    throw new Error('Expected "add" or "remove act');
+  const {
+    body,
+    guildID,
+    channelID,
+    messageID,
+  } = await getEmbed();
+
+  const embedBody = prepareEmbedBody(body);
+
+  return update();
+
+  // ///////////////////////////////////////// Handlers \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \\
+
+  async function getEmbed() {
+    let result;
+
+    try {
+      result = await Embed.findOne({ name: 'Доступные трансляции' });
+    } catch (error) {
+      throw new Error(error);
+    }
+
+    if (!result) throw new Error('No result from db for updating streams info');
+
+    return result;
   }
 
-  const message = await channel.fetchMessage(main.id);
-  let embed = message.embeds[0];
+  function checkErrors() {
+    if (typeof oldMember !== 'object' || typeof newMember !== 'object') {
+      throw new Error('Expected member');
+    }
 
-  if (act === 'add') {
-    embed = new RichEmbed(embed).addField(
-      newMember.voiceChannel.name,
-      `[**присоединиться**](${baseLink}${newMember.voiceChannelID})`,
-      true,
-    );
+    if (action !== 'add' && action !== 'remove') {
+      throw new Error('Expected "add" or "remove action');
+    }
+  }
 
-    await message.edit(embed);
-  } else {
-    embed.fields = embed.fields.filter((field) => field.name !== oldMember.voiceChannel.name);
+  // eslint-disable-next-line
+  function prepareEmbedBody(body) {
+    const result = body;
 
-    embed = new RichEmbed(embed);
+    if (action === 'add') {
+      result.fields.push({
+        name: newMember.voiceChannel.name,
+        value: `[**присоединиться**](${baseLink}${newMember.voiceChannelID})`,
+        inline: true,
+      });
+    } else {
+      result.fields = result.fields.filter((field) => field.name !== oldMember.voiceChannel.name);
+    }
 
-    await message.edit(embed);
+    result.timestamp = new Date();
+    result.color = newMember.displayColor;
+
+    return result;
+  }
+
+  async function update() {
+    try {
+      // noinspection JSUnresolvedVariable
+      const message = await client
+        .guilds.get(guildID)
+        .channels.get(channelID)
+        .fetchMessage(messageID)
+        .catch(throwError);
+
+      await message.edit({ embed: embedBody }).catch(throwError);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
 
