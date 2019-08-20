@@ -56,6 +56,7 @@ async function updateStreamsInfo(oldMember, newMember, action) {
       let ignore;
 
       if (newMember.voiceChannel.id === newMember.guild.afkChannelID) {
+        // noinspection JSUnusedAssignment
         ignore = true;
       }
 
