@@ -70,15 +70,7 @@ async function updateStreamsInfo(oldMember, newMember, action) {
         });
       }
     } else {
-      result.fields = result.fields.filter((field) => {
-        console.info(
-          field.name !== oldMember.voiceChannel.name,
-          field.name,
-          oldMember.voiceChannel.name,
-        );
-
-        return field.name !== oldMember.voiceChannel.name;
-      });
+      result.fields = result.fields.filter((field) => field.name !== oldMember.voiceChannel.name);
     }
 
     result.timestamp = new Date();
