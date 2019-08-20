@@ -7,6 +7,8 @@ const baseLink = 'https://www.discordapp.com/channels/219557939466338304/';
 async function updateStreamsInfo(oldMember, newMember, action) {
   checkErrors();
 
+  const embedName = 'Доступные трансляции';
+
   const {
     body,
     guildID,
@@ -16,7 +18,9 @@ async function updateStreamsInfo(oldMember, newMember, action) {
 
   const embedBody = prepareEmbedBody(body);
 
-  return update();
+  await updateEmbedInDB();
+
+  return updateMessage();
 
   // ///////////////////////////////////////// Handlers \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \\
 
@@ -24,7 +28,7 @@ async function updateStreamsInfo(oldMember, newMember, action) {
     let result;
 
     try {
-      result = await Embed.findOne({ name: 'Доступные трансляции' });
+      result = await Embed.findOne({ name: embedName });
     } catch (error) {
       throw new Error(error);
     }
@@ -49,13 +53,32 @@ async function updateStreamsInfo(oldMember, newMember, action) {
     const result = body;
 
     if (action === 'add') {
-      result.fields.push({
-        name: newMember.voiceChannel.name,
-        value: `[**присоединиться**](${baseLink}${newMember.voiceChannelID})`,
-        inline: true,
-      });
+      let existence;
+
+      for (const field of result.fields) {
+        if (field.name === newMember.voiceChannel.name) {
+          existence = true;
+          break;
+        }
+      }
+
+      if (!existence) {
+        result.fields.push({
+          name: newMember.voiceChannel.name,
+          value: `[**присоединиться**](${baseLink}${newMember.voiceChannelID})`,
+          inline: true,
+        });
+      }
     } else {
-      result.fields = result.fields.filter((field) => field.name !== oldMember.voiceChannel.name);
+      result.fields = result.fields.filter((field) => {
+        console.info(
+          field.name !== oldMember.voiceChannel.name,
+          field.name,
+          oldMember.voiceChannel.name,
+        );
+
+        return field.name !== oldMember.voiceChannel.name;
+      });
     }
 
     result.timestamp = new Date();
@@ -64,7 +87,18 @@ async function updateStreamsInfo(oldMember, newMember, action) {
     return result;
   }
 
-  async function update() {
+  async function updateEmbedInDB() {
+    try {
+      await Embed.findOneAndUpdate(
+        { name: embedName },
+        { body: embedBody },
+      ).exec();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async function updateMessage() {
     try {
       // noinspection JSUnresolvedVariable
       const message = await client
