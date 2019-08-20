@@ -53,16 +53,20 @@ async function updateStreamsInfo(oldMember, newMember, action) {
     const result = body;
 
     if (action === 'add') {
-      let existence;
+      let ignore;
+
+      if (newMember.voiceChannel.id === newMember.guild.afkChannelID) {
+        ignore = true;
+      }
 
       for (const field of result.fields) {
         if (field.name === newMember.voiceChannel.name) {
-          existence = true;
+          ignore = true;
           break;
         }
       }
 
-      if (!existence) {
+      if (!ignore) {
         result.fields.push({
           name: newMember.voiceChannel.name,
           value: `[**присоединиться**](${baseLink}${newMember.voiceChannelID})`,
