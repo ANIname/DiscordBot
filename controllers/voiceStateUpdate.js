@@ -52,23 +52,12 @@ async function updateStreamsInfo(oldMember, newMember, action) {
   function prepareEmbedBody(body) {
     const result = body;
 
-    if (action === 'add') {
-      let ignore;
-
-      if (newMember.voiceChannel.id === newMember.guild.afkChannelID) {
-        // noinspection JSUnusedAssignment
-        ignore = true;
-      }
-
-      ignore = result.fields.some((field) => field.name === newMember.voiceChannel.name);
-
-      if (!ignore) {
-        result.fields.push({
-          name: newMember.voiceChannel.name,
-          value: `[**присоединиться**](${baseLink}${newMember.voiceChannelID})`,
-          inline: true,
-        });
-      }
+    if (action === 'add' && !ignoreTheAction()) {
+      result.fields.push({
+        name: newMember.voiceChannel.name,
+        value: `[**присоединиться**](${baseLink}${newMember.voiceChannelID})`,
+        inline: true,
+      });
     } else {
       result.fields = result.fields.filter((field) => field.name !== oldMember.voiceChannel.name);
     }
@@ -77,6 +66,19 @@ async function updateStreamsInfo(oldMember, newMember, action) {
     result.color = newMember.displayColor;
 
     return result;
+
+    /**
+     * Ignore if this is an afk channel, or it is already in the message
+     * @return {boolean}
+     */
+    function ignoreTheAction() {
+      if (newMember.voiceChannel.id === newMember.guild.afkChannelID) {
+        // noinspection JSUnusedAssignment
+        return true;
+      }
+
+      return result.fields.some((field) => field.name === newMember.voiceChannel.name);
+    }
   }
 
   async function updateEmbedInDB() {

@@ -1,7 +1,7 @@
 const { RichEmbed } = require('discord.js');
 
 module.exports = async (member, client) => {
-  const message = member.send(greeting(client));
+  const message = await member.send(greeting(client));
 
   message.react('✅');
 };
