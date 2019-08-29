@@ -16,7 +16,7 @@ async function updateStreamsInfo(oldMember, newMember, action) {
     messageID,
   } = await getEmbed();
 
-  const embedBody = prepareEmbedBody(body);
+  const embedBody = await prepareEmbedBody(body);
 
   await updateEmbedInDB();
 
@@ -49,10 +49,10 @@ async function updateStreamsInfo(oldMember, newMember, action) {
   }
 
   // eslint-disable-next-line
-  function prepareEmbedBody(body) {
+  async function prepareEmbedBody(body) {
     const result = body;
 
-    if (action === 'add' && !ignoreTheAction()) {
+    if (action === 'add' && !await ignoreTheAction()) {
       result.fields.push({
         name: newMember.voiceChannel.name,
         value: `[**присоединиться**](${baseLink}${newMember.voiceChannelID})`,
@@ -71,7 +71,7 @@ async function updateStreamsInfo(oldMember, newMember, action) {
      * Ignore if this is an afk channel, or it is already in the message
      * @return {boolean}
      */
-    function ignoreTheAction() {
+    async function ignoreTheAction() {
       if (newMember.voiceChannel.id === newMember.guild.afkChannelID) {
         // noinspection JSUnusedAssignment
         return true;
