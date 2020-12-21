@@ -1,44 +1,42 @@
 {
-  "name": "discordbot",
-  "version": "0.0.0",
+  "name": "aniname-discord-bot",
+  "version": "1.0.0",
   "description": "Application for our Discord Server: https://discord.gg/ADFYZtJ",
-  "main": "index.js",
+  "main": "src",
+  "private": true,
   "scripts": {
-    "eslint": "eslint ./",
-    "start": "node index",
-    "dev": "npm run eslint && nodemon index"
+    "start": "node src"
   },
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
+  "author": {
+    "name": "KiiDii",
+    "email": "kiidii@aniname.com",
+    "url": "https://github.com/KiiDii",
+    "discord": "KiiDii#7836",
+    "telegram": "https:t.me/kiidii_aniname"
+  },
+  "keywords": [
+    "tracking",
+    "app",
+    "backend"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ANIname/DiscordBot.git"
+    "url": "https://github.com/ANIname/DiscordBot"
   },
   "bugs": {
     "url": "https://github.com/ANIname/DiscordBot/issues"
   },
   "homepage": "https://github.com/ANIname/DiscordBot#readme",
-  "author": {
-    "name": "KiiDii",
-    "email": "kiidii@aniname.com",
-    "telegram": "https:t.me/kiidii_aniname"
-  },
   "license": "ISC",
   "dependencies": {
-    "cli-interact": "^0.1.9",
-    "directory-import": "^1.0.5",
-    "discord.js": "^11.5.1",
-    "mongoose": "^5.6.9"
-  },
-  "devDependencies": {
-    "eslint": "^6.1.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-immutable": "^1.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-no-use-extend-native": "^0.4.1",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-optimize-regex": "^1.1.6",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-sonarjs": "^0.4.0",
-    "eslint-plugin-unicorn": "^10.0.0",
-    "nodemon": "^1.19.1"
+    "bluebird": "^3.7.2",
+    "directory-import": "^2.2.3",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.20"
   }
 }

@@ -1,9 +1,8 @@
-notes.txt
-test.js
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
 
-security/*
-!security/index.js
-
-package-lock.json
-
-node_modules
+# Dependencies
+node_moduless
