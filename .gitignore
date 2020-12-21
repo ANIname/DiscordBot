@@ -6,3 +6,6 @@ gen
 
 # Dependencies
 node_moduless
+
+# Environment variables
+.env
