@@ -37,6 +37,7 @@
     "directory-import": "^2.2.3",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "node-fetch": "^2.6.1"
   }
 }
