@@ -1,26 +1,43 @@
-const startsWith = require('lodash/startsWith');
-const commands   = require('../commands');
-const client     = require('../client');
-const config     = require('../config');
+const forEach = require('lodash/forEach')
+const join    = require('lodash/join')
+const client  = require('../client');
+const fetch   = require('../services/fetch');
+
+const { DISCORD_BOT_ID, DISCORD_BOT_TOKEN } = process.env;
+
+let commandsIds   = ''
+let commandsNames = ''
 
 client.on('message', async (message) => {
-  const isCommand = startsWith(message.content, config.commandPrefix);
+  const interactionRegExp    = new RegExp(`^<\/(${commandsNames}):(${commandsIds})>`);
+  const isInteractionMessage = interactionRegExp.test(message.content);
+  const messageLength        = message.content.length;
+  const authorId             = message.author.id;
 
-  if (isCommand) await commandHandler(message);
+  if (isInteractionMessage)        return message.delete({ timeout: messageLength * 100 });
+  if (authorId === DISCORD_BOT_ID) return message.delete({ timeout: messageLength * 100 });
+
+  console.info({ message });
 });
 
-async function commandHandler(message) {
-  const [, commandName] = message.content.split('');
+async function fetchCommandsIds() {
+  const commands = await fetch(`https://discord.com/api/v8/applications/${DISCORD_BOT_ID}/commands`, {
+    headers: { Authorization: `Bot ${DISCORD_BOT_TOKEN}` },
+  });
 
-  await message.delete({ reason: 'Deleted command message!' });
+  const receivedCommandsIds   = [];
+  const receivedCommandsNames = [];
 
-  if (typeof commands[commandName] === 'function') {
-    await commands[commandName](message);
-  }
+  forEach(commands, (command) => {
+    receivedCommandsIds.push(command.id);
+    receivedCommandsNames.push(command.name);
+  });
 
-  else {
-    const messageToDelete = await message.reply('Command not found!');
+  commandsIds   = join(receivedCommandsIds, '|');
+  commandsNames = join(receivedCommandsNames, '|');
 
-    await messageToDelete.delete({ timeout: 2000 });
-  }
+  setTimeout(fetchCommandsIds, 3600000); // 1 Hour
 }
+
+fetchCommandsIds()
+  .catch(console.error);
