@@ -16,8 +16,6 @@ client.on('message', async (message) => {
 
   if (isInteractionMessage)        return message.delete({ timeout: messageLength * 100 });
   if (authorId === DISCORD_BOT_ID) return message.delete({ timeout: messageLength * 100 });
-
-  console.info({ message });
 });
 
 async function fetchCommandsIds() {
