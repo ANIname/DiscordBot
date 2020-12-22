@@ -15,18 +15,18 @@ async function messagesBulkDeleteCommand(interaction) {
     return {
       type: 4,
       data: {
-        content: 'You don\'t have the right to delete other members posts. \n\n'
+        content: `<@${memberId}>, you do not have the right to delete other members posts. \n\n`
           + 'If you want to delete your messages, try to do it manually'
       },
     };
   }
 
-  await channel.bulkDelete(numberOfMessages);
+  const deletedMessages = await channel.bulkDelete(numberOfMessages);
 
   return {
-    type: 5,
+    type: 4,
     data: {
-      content: 'Done!',
+      content: `:recycle: Deleted ${deletedMessages.array().length} messages!`,
     },
   };
 }
