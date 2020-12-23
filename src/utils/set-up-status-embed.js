@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const Promise = require('bluebird');
 const client  = require('../client');
 
 const { DISCORD_STATUS_MESSAGE, DISCORD_CHANNEL_PING, DISCORD_GUILD_ANINAME } = process.env;
@@ -24,7 +25,10 @@ async function setUpStatusEmbed() {
   statusEmbed.setTimestamp(client.readyTimestamp);
   statusEmbed.setFooter('Bot last restart at', botAvatarURL);
 
-  await pingMassage.edit(null, { embed: statusEmbed });
+  await Promise.all([
+    pingMassage.edit(null, { embed: statusEmbed }),
+    pingChannel.startTyping(),
+  ]);
 }
 
 module.exports = setUpStatusEmbed;
