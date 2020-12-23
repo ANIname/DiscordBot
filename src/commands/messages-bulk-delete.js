@@ -27,8 +27,8 @@ async function messagesBulkDeleteCommand(interaction) {
   const channelId              = interaction.channel_id;
   const memberId               = interaction.member.user.id;
   const guild                  = await client.guilds.fetch(guildId);
-  const channel                = await guild.channels.cache.get(channelId);
   const member                 = await guild.members.fetch(memberId);
+  const channel                = await guild.channels.cache.get(channelId);
 
   if (!member.hasPermission('MANAGE_MESSAGES')) {
     return {
