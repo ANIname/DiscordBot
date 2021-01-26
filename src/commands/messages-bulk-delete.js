@@ -1,7 +1,7 @@
 const client = require('../client');
 
 async function messagesBulkDeleteCommand(interaction) {
-  const numberOfMessages = interaction.data.options;
+  const numberOfMessages = interaction.data.options['number-of-messages'];
   const guildId          = interaction.guild_id;
   const channelId        = interaction.channel_id;
   const memberId         = interaction.member.user.id;
